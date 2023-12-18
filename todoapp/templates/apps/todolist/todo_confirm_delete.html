@@ -1,0 +1,18 @@
+{% extends "layout/base.html" %}
+
+{% block title %}Confirm Delete Todo List{% endblock %}
+
+{% block content %}
+<h1>Confirmação de Exclusão</h1>
+
+<p>Tem certeza que deseja excluir esta tarefa?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <button type="submit" class="btn btn-danger">Deletar</button>
+        <a href="{% url 'todolist:todo_list' %}" class="btn btn-primary">Cancelar</a>
+    </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "layout/base.html" %}
+
+{% block title %}Detail Todo List{% endblock %}
+
+{% block content %}
+<h1>Todo List Detail</h1>
+<form method="post" action="">
+    <div class="form-group mb-2">
+        <label for="descricao">Descrição:</label>
+        <input type="text" name="descricao" id="descricao" value="{{ object.descricao }}" disabled readonly>
+    </div>
+    <div class="form-group mb-2">
+        <label for="situacao">Situação:</label>
+        <input type="text" name="situacao" id="situacao" value="{{ object.situacao }}" disabled readonly>
+    </div>
+    <div class="form-group">
+        <a href="{% url 'todolist:todo_list' %}" class="btn btn-primary">Votar</a>
+    </div>
+</form>
+{% endblock %}
