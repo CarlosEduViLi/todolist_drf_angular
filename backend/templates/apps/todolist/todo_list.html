@@ -10,32 +10,93 @@
         <a href="{% url 'todolist:todo_create' %}" class="btn btn-primary"><i class="fas fa-plus me-2"></i>Adicionar
             Tarefa</a>
     </div>
-    {% for todo in todos %}
-    <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card" style="width: 18rem;">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><strong>ID:</strong> {{ todo.id }}</li>
-                <li class="list-group-item"><strong>Descrição:</strong> {{ todo.descricao }}</li>
-                <li class="list-group-item"><strong>Data de Início:</strong> {{todo.data_inicio|date:"d/m/Y"}}</li>
-                <li class="list-group-item"><strong>Data Prevista do Término:</strong>
-                    {{todo.data_prevista_termino|date:"d/m/Y"}}</li>
-                <li class="list-group-item"><strong>Situação:</strong> {{ todo.get_situacao_display }}</li>
-            </ul>
-            <div class="card-body">
-                <div class="form-group justify-content-around">
-                    <a href="{% url 'todolist:todo_detail' todo.id %}" class="btn btn-primary"><i
-                            class="fas fa-eye"></i></a>
-                    <a href="{% url 'todolist:todo_update' todo.id %}" class="btn btn-warning"><i
-                            class="fas fa-edit"></i></a>
-                    <a href="{% url 'todolist:todo_delete' todo.id %}" class="btn btn-danger"><i
-                            class="fas fa-trash-alt"></i></a>
+    <!-- Table -->
+    <div class="card-body p-0">
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                aria-labelledby="pills-home-tab">
+                <div style="display: inline-block;">
+                    <form action="" method="GET">
+                        <div style="display: inline-block;" class="mb-1">{{ form.as_p }}</div>
+                        <button type="submit" class="btn btn-outline-secondary"><i
+                                class="feather icon-search float-rigth"></i></button>
+                    </form>
+                </div>
+                <div class="table-responsive">
+                    <div class="customer-scroll" style="height:auto;position:relative;">
+                        <table class="table table-hover m-b-0">
+                            <thead>
+                                <tr>
+                                    <th><span>ID<a class="help" data-toggle="popover"
+                                                title="Nome do servidor"
+                                                data-content="And here's some amazing content. It's very engaging. Right?"><i
+                                                    class="feather icon-help-circle f-16"></i></a></span>
+                                    </th>
+                                    <th><span>Descrição<a class="help" data-toggle="popover"
+                                                title="Cpf do servidor"
+                                                data-content="And here's some amazing content. It's very engaging. Right?"><i
+                                                    class="feather icon-help-circle f-16"></i></a></span>
+                                    </th>
+                                    <th><span>Data de Início<a class="help" data-toggle="popover"
+                                                title="Definição de sexo"
+                                                data-content="And here's some amazing content. It's very engaging. Right?"><i
+                                                    class="feather icon-help-circle f-16"></i></a></span>
+                                    </th>
+                                    <th><span>Data Prevista do Término<a class="help" data-toggle="popover"
+                                                title="Situação do servidor"
+                                                data-content="And here's some amazing content. It's very engaging. Right?"><i
+                                                    class="feather icon-help-circle f-16"></i></a></span>
+                                    </th>
+                                    <th><span>Situação<a class="help" data-toggle="popover"
+                                                title="Curso de Formação"
+                                                data-content="And here's some amazing content. It's very engaging. Right?"><i
+                                                    class="feather icon-help-circle f-16"></i></a></span>
+                                    </th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for todo in todos %}
+                                <tr>
+                                    <td>{{ todo.id }}</td>
+                                    <td>{{ todo.descricao }}</td>
+                                    <td>{{ todo.data_inicio|date:"d/m/Y"|default:'Não Definida' }}</td>
+                                    <td>{{ todo.data_prevista_termino|date:"d/m/Y"|default:'Não Definida' }}</td>
+                                    <td>
+                                        {% if todo.situacao == "ATIVA" %}
+                                        <span class="badge bg-primary">Ativa</span>
+                                        {% elif todo.situacao == "PAUSADA" %}
+                                        <span class="badge bg-warning">Pausada</span>
+                                        {% elif todo.situacao == "PENDENTE" %}
+                                        <span class="badge bg-secondary">Pendente</span>
+                                        {% elif todo.situacao == "CONCLUIDA" %}
+                                        <span class="badge bg-success">Concluída</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'todolist:todo_detail' todo.id %}"
+                                            type="button" class="btn btn-primary btn-circle"><i class="fa fa-eye"></i>
+                                        </a>
+                                        <a href="{% url 'todolist:todo_update' todo.id %}"
+                                            type="button" class="btn btn-warning btn-circle"><i class="fa fa-pen"></i>
+                                        </a>
+                                        <a href="{% url 'todolist:todo_delete' todo.id %}"
+                                            type="button" class="btn btn-danger btn-circle"><i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5">Nenhum registro foi encontrado.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    {% empty %}
-    <strong>Nenhuma tarefa encontrada.</strong>
-    {% endfor %}
     <!-- Paginação -->
     <div class="pagination justify-content-center mt-4">
         <ul class="pagination">
